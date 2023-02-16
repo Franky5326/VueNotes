@@ -1,0 +1,41 @@
+body {
+    background-color: #d1e5c8;
+    font-family: "Nirmala UI";
+    color: #3b4806;
+}
+
+h1 {
+    text-align: center;
+}
+
+.addform {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 28px;
+}
+
+p {
+    margin: 0px;
+}
+
+input {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+#cols {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
