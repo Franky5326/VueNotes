@@ -1,13 +1,26 @@
 let eventBus = new Vue()
 
-Vue.component('cols', {
+Vue.component('cols', { 
     template:`
     <div id="cols">
-        <newcard></newcard>
         <div class="col-wrapper">
-            <col1 :column1="column1"></col1>
-            <col2 :column2="column2"></col2>
-            <col3 :column3="column3"></col3>
+            <newcard></newcard>
+                <div class="col">
+                    <ul>
+                        <li class="cards" v-for="card in column1" ><p>{{ card.title }}</p>
+                            <div>
+                                <ul>
+                                    <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
+                                        <input class="checkbox" type="checkbox">
+                                        <p>{{t.title}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col">{{ column2 }}</div>
+                <div class="col">{{ column3 }}</div>
         </div>
     </div>
 
@@ -41,7 +54,21 @@ Vue.component('column', {
     },
     computed: {
 
+    },
+    props: {
+        card: {
+            title: {
+                type: Text,
+                required: true
+            },
+            subtasks: {
+                type: Array,
+                required: true,
+            }
+        },
+
     }
+
 })
 
 Vue.component('cards', {
@@ -62,15 +89,23 @@ Vue.component('newcard', {
         </p>
         <div>
             <input class="checkbox" type="checkbox">
-            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask">
+            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask1">
         </div>
         <div>
             <input class="checkbox" type="checkbox">
-            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask">
+            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask2">
         </div>
         <div>
             <input class="checkbox" type="checkbox">
-            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask">
+            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask3">
+        </div>
+        <div>
+            <input class="checkbox" type="checkbox">
+            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask4">
+        </div>
+        <div>
+            <input class="checkbox" type="checkbox">
+            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask5">
         </div>
         
         <button type="submit">Add a card</button>
@@ -80,18 +115,31 @@ Vue.component('newcard', {
         return {
             column,
             title: null,
-            subtasks: [],
+            subtask1: null,
+            subtask2: null,
+            subtask3: null,
+            subtask4: null,
+            subtask5: null,
         }
     },
     methods: {
         onSubmit() {
             let card = {
                 title: this.title,
-                subtasks: this.subtasks,
+                subtasks: [{title: this.subtask1, completed: false},
+                            {title: this.subtask2, completed: false},
+                            {title: this.subtask3, completed: false},
+                            {title: this.subtask4, completed: false},
+                            {title: this.subtask5, completed: false}]
             }
             eventBus.$emit('card-submitted', card)
             this.title = null
-            this.subtasks = null
+            this.subtask1 = null
+            this.subtask2 = null
+            this.subtask3 = null
+            this.subtask4 = null
+            this.subtask5 = null
+            console.log(card)
         }
     }
 })
