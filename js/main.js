@@ -32,21 +32,7 @@ Vue.component('cols', {
             column3: [],
         }
     },
-})
 
-Vue.component('column', {
-    template:`
-    <div class="col">
-        <h2>Col1</h2>
-    </div>
-`,
-    data() {
-        return {
-            column
-        }
-    },
-    methods: {
-    },
     mounted() {
         eventBus.$on('card-submitted', card => {
             this.column1.push(card)
@@ -68,17 +54,10 @@ Vue.component('column', {
         },
 
     }
-
+       
+   
 })
 
-Vue.component('cards', {
-    template: `
-    <div>
-        
-    </div>
-    `,
-
-})
 
 Vue.component('newcard', {
     template: `
@@ -89,23 +68,23 @@ Vue.component('newcard', {
         </p>
         <div>
             <input class="checkbox" type="checkbox">
-            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask1">
+            <input required id="subtask1" v-model="subtask1"  placeholder="subtask">
         </div>
         <div>
             <input class="checkbox" type="checkbox">
-            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask2">
+            <input required id="subtask2" v-model="subtask2" placeholder="subtask">
         </div>
         <div>
             <input class="checkbox" type="checkbox">
-            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask3">
+            <input required id="subtask3" v-model="subtask3"placeholder="subtask">
         </div>
         <div>
             <input class="checkbox" type="checkbox">
-            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask4">
+            <input  id="subtask4" v-model="subtask4" placeholder="subtask">
         </div>
         <div>
             <input class="checkbox" type="checkbox">
-            <input class="subtask" v-model="subtasks" type="text" placeholder="subtask5">
+            <input  id="subtask5" v-model="subtask5" placeholder="subtask">
         </div>
         
         <button type="submit">Add a card</button>
