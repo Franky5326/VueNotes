@@ -4,24 +4,25 @@ Vue.component('cols', {
     template:`
     <div id="cols">
         <div class="col-wrapper">
-            <newcard></newcard>
-                <div class="col">
-                    <ul>
-                        <li class="cards" v-for="card in column1" ><p>{{ card.title }}</p>
-                            <div>
-                                <ul>
-                                    <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                                        <input class="checkbox" type="checkbox">
-                                        <p>{{t.title}}</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col">{{ column2 }}</div>
-                <div class="col">{{ column3 }}</div>
+        <newcard>{{errors}}</newcard>
+        <div class="col">
+            <ul>
+                <li class="cards" v-for="card in column1" ><p>{{ card.title }}</p>
+                    <div>
+                        <ul>
+                            <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
+                                <input @click="t.completed = true" 
+                                class="checkbox" type="checkbox">
+                                <p :class="{completed: t.completed}">{{t.title}}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
         </div>
+        <div class="col">{{ column2 }}</div>
+        <div class="col">{{ column3 }}</div>
+    </div>
     </div>
 
 `,
@@ -30,14 +31,23 @@ Vue.component('cols', {
             column1: [],
             column2: [],
             column3: [],
+            errors: [],
         }
     },
 
     mounted() {
         eventBus.$on('card-submitted', card => {
-            this.column1.push(card)
+            if (this.column1.length < 3){
+                this.column1.push(card)
+            } else {
+                this.errors.push("You can't add a new card now.")
+            }
         })
     },
+    methods: {
+
+    },
+
     computed: {
 
     },
@@ -52,8 +62,7 @@ Vue.component('cols', {
                 required: true,
             }
         },
-
-    }
+    },
        
    
 })
@@ -92,13 +101,13 @@ Vue.component('newcard', {
     `,
     data() {
         return {
-            column,
             title: null,
             subtask1: null,
             subtask2: null,
             subtask3: null,
             subtask4: null,
             subtask5: null,
+            errors: [],
         }
     },
     methods: {
