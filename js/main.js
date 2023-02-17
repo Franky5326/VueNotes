@@ -4,50 +4,53 @@ Vue.component('cols', {
     template:`
     <div id="cols">
     <div class="col-wrapper">
-        <p class="error" v-for="error in errors">{{error}}</p>
+    <h2 class="error" v-for="error in errors">{{error}}</h2>
         <newcard></newcard>
-        <div class="col">
-            <ul>
-                <li class="cards" v-for="card in column1"><p>{{ card.title }}</p>
+        <div class="cols-wrapper">
+            <div class="col">
+                <ul>
+                    <li class="cards" style="background-color: #e79ba2" v-for="card in column1"><p class="p-title">{{ card.title }}</p>
+                        <ul>
+                            <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
+                                <input @click="newStatus1(card, t)"
+                                class="checkbox" type="checkbox"
+                                :disabled="t.completed">
+                                <p :class="{completed: t.completed}">{{t.title}}</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col">
+                <ul>
+                    <li class="cards" style="background-color: #f5f287" v-for="card in column2"><p class="p-title">{{ card.title }}</p>
+                        <ul>
+                            <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
+                                <input @click="newStatus2(card, t)"
+                                class="checkbox" type="checkbox" 
+                                :disabled="t.completed">
+                                <p :class="{completed: t.completed}">{{t.title}}</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col">
+                <ul>
+                    <li class="cards" style="background-color: lightgreen" v-for="card in column3"><p class="p-title">{{ card.title }}</p><div class="flex-revers"><p>{{ card.date }}</p>
                     <ul>
-                        <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                            <input @click="newStatus1(card, t)"
-                            class="checkbox" type="checkbox"
-                            :disabled="t.completed">
-                            <p :class="{completed: t.completed}">{{t.title}}</p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="col">
-            <ul>
-                <li class="cards" v-for="card in column2"><p>{{ card.title }}</p>
-                    <ul>
-                        <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                            <input @click="newStatus2(card, t)"
-                            class="checkbox" type="checkbox"
-                            :disabled="t.completed">
-                            <p :class="{completed: t.completed}">{{t.title}}</p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="col">
-            <ul>
-                <li class="cards" v-for="card in column3"><p>{{ card.title }}</p><p>{{ card.date }}</p>
-                    <ul>
-                        <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                            <input @click="t.completed = true"
-                            class="checkbox" type="checkbox"
-                            :disabled="t.completed">
-                            <p :class="{completed: t.completed}">{{t.title}}</p>
-                            
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                            <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
+                                <input @click="t.completed = true"
+                                class="checkbox" type="checkbox" 
+                                :disabled="t.completed">
+                                <p :class="{completed: t.completed}">{{t.title}}</p>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     </div>
@@ -169,29 +172,25 @@ Vue.component('newcard', {
     <form class="addform" @submit.prevent="onSubmit">
         <p>
             <label for="title">Title</label>
-            <input class="title" required v-model="title" type="text" placeholder="title">
+            <input id="title" required v-model="title" type="text" placeholder="title">
         </p>
-        <div>
-            <input class="checkbox" type="checkbox">
-            <input required id="subtask1" v-model="subtask1"  placeholder="subtask">
+        <div class="subtask-wrapper">
+            <div>
+                <input required id="subtask1" v-model="subtask1" placeholder="subtask">
+            </div>
+            <div>
+                <input required id="subtask2" v-model="subtask2" maxlength="30" placeholder="subtask">
+            </div>
+            <div>
+                <input required id="subtask3" v-model="subtask3" maxlength="30" placeholder="subtask">
+            </div>
+            <div>
+                <input  id="subtask4" v-model="subtask4" maxlength="30" placeholder="subtask">
+            </div>
+            <div>
+                <input  id="subtask5" v-model="subtask5" maxlength="30" placeholder="subtask">
+            </div>
         </div>
-        <div>
-            <input class="checkbox" type="checkbox">
-            <input required id="subtask2" v-model="subtask2" placeholder="subtask">
-        </div>
-        <div>
-            <input class="checkbox" type="checkbox">
-            <input required id="subtask3" v-model="subtask3"placeholder="subtask">
-        </div>
-        <div>
-            <input class="checkbox" type="checkbox">
-            <input  id="subtask4" v-model="subtask4" placeholder="subtask">
-        </div>
-        <div>
-            <input class="checkbox" type="checkbox">
-            <input  id="subtask5" v-model="subtask5" placeholder="subtask">
-        </div>
-        
         <button type="submit">Add a card</button>
     </form>
     `,

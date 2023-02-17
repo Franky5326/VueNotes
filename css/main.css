@@ -1,4 +1,9 @@
+#app{
+    text-align: center;
+    padding: 0 15px 50px;
+}
 body {
+
     background-color: #d1e5c8;
     font-family: "Nirmala UI";
     color: #3b4806;
@@ -8,14 +13,50 @@ h1 {
     text-align: center;
 }
 
-.addform {
+.addform{
     display: flex;
     flex-direction: column;
     gap: 15px;
     font-size: 28px;
 }
+.tasks{
+    display: flex;
+    list-style-type: disc;
+    margin: 0px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.completed{
+    text-decoration: line-through;
+}
+
+.error{
+    color: red;
+    font-size:large;
+    border-bottom: 1px solid black; 
+}
+
+.cards{
+    list-style-type: none;
+    font-size: 14px;
+    width: 95%;
+    background-color: burlywood;
+    border-radius: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 10px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
 
 p {
+    text-wrap: normal;
     margin: 0px;
 }
 
@@ -39,9 +80,41 @@ button {
     align-items: center;
 }
 
-.error{
-    
-    
-    color: red;
+.col {
+    width: 30%;
+    text-align: center;
+    background-color: white;
+    border-radius: 30px;
 }
 
+.col-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 15px;  
+    flex-direction: column;
+}
+
+.subtask-wrapper {
+    display: flex;
+    gap: 15px;
+}
+
+.cols-wrapper {
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    min-height: 680px;
+    justify-content: center;
+    gap: 15px;
+}
+
+.flex-revers {
+    display: flex;
+    flex-direction: column-reverse;
+
+}
+
+.p-title {
+    font-size:large;
+}
