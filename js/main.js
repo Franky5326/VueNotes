@@ -8,10 +8,10 @@ Vue.component('cols', {
         <newcard></newcard>
         <div class="col">
             <ul>
-                <li class="cards" v-for="card in column1"><p>{{ card.title }}</p><p>{{ card.status }}</p>
+                <li class="cards" v-for="card in column1"><p>{{ card.title }}</p>
                     <ul>
                         <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                            <input @click="t.completed = true"
+                            <input @click="newStatus1(card, t)"
                             class="checkbox" type="checkbox"
                             :disabled="t.completed">
                             <p :class="{completed: t.completed}">{{t.title}}</p>
@@ -25,7 +25,7 @@ Vue.component('cols', {
                 <li class="cards" v-for="card in column2"><p>{{ card.title }}</p>
                     <ul>
                         <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                            <input @click="t.completed = true" 
+                            <input @click="newStatus2(card, t)"
                             class="checkbox" type="checkbox"
                             :disabled="t.completed">
                             <p :class="{completed: t.completed}">{{t.title}}</p>
@@ -36,11 +36,10 @@ Vue.component('cols', {
         </div>
         <div class="col">
             <ul>
-                <li class="cards" v-for="card in column3"><p>{{ card.title }}</p><p>{{ card.status }}</p><p>{{ card.date }}</p>
+                <li class="cards" v-for="card in column3"><p>{{ card.title }}</p><p>{{ card.date }}</p>
                     <ul>
                         <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                            <input @click="t.completed = true" 
-                            @click="newStatus"
+                            <input @click="t.completed = true"
                             class="checkbox" type="checkbox"
                             :disabled="t.completed">
                             <p :class="{completed: t.completed}">{{t.title}}</p>
@@ -74,27 +73,60 @@ Vue.component('cols', {
         })
     },
     methods: {
-        newStatus(id) {
+        newStatus1(card, t) {
+            t.completed = true
             let count = 0
-            let comtask = 0
-            for (let i; i < 5; i++) {
-                count += 1
-                if (this.column1.card.subtasks.completed === true) {
-                    comtask += 1
+            card.status = 0
+            this.errors = []
+            for (let i = 0; i < 5; i++) {
+                if (card.subtasks[i].title != null) {
+                    count++
                 }
             }
-            if (comtask/count*100 >= 50) {
-                this.column1.card.status = 1
-                this.column2.push(id)
-                this.column1.pop(id)
-            } else if (comtask/count*100 === 100) {
-                this.column1.card.status = 2
-                this.column3.push(id)
-                this.column2.pop(id)
-                this.column3.card.date = new Date()
+
+            for (let i = 0; i < count; i++) {
+                if (card.subtasks[i].completed === true) {
+                    card.status++
+                }
+            }
+            if (card.status/count*100 >= 50 && card.status/count*100 < 100 && this.column2.length < 5) {
+                    this.column2.push(card)
+                    this.column1.splice(this.column1.indexOf(card), 1)
+            } else if (this.column2.length === 5) {
+                this.errors.push('You need to complete card in the second column to add new card or complete card in the first column')
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 5; j++) {
+                        if (this.card[i].subtasks[j].title != null) {
+                            this.column1.card[i].subtasks[j].disabled = true
+                        }  
+                    }
+                
+                }
+            }
+        },
+        newStatus2(card, t) {
+            t.completed = true
+            let count = 0
+            card.status = 0
+            for (let i = 0; i < 5; i++) {
+                if (card.subtasks[i].title != null) {
+                    count++
+                }
+            }
+
+            for (let i = 0; i < count; i++) {
+                if (card.subtasks[i].completed === true) {
+                    card.status++
+                }
+            }
+            if (card.status/count*100 === 100) {
+                this.column3.push(card)
+                this.column2.splice(this.column2.indexOf(card), 1)
+                card.date = new Date()
             }
         }
     },
+    
 
     computed: {
 
@@ -120,6 +152,10 @@ Vue.component('cols', {
             status: {
                 type: Number,
                 required: true
+            },
+            errors: {
+                type: Array,
+                required: false
             }
         },
     },
@@ -189,7 +225,6 @@ Vue.component('newcard', {
             this.subtask3 = null
             this.subtask4 = null
             this.subtask5 = null
-            console.log(card)
         }
     }
 })
