@@ -95,15 +95,21 @@ Vue.component('cols', {
             if (card.status/count*100 >= 50 && card.status/count*100 < 100 && this.column2.length < 5) {
                     this.column2.push(card)
                     this.column1.splice(this.column1.indexOf(card), 1)
+                    if(this.column1.length > 0) {
+                        this.column1.forEach(item => {
+                            item.subtasks.forEach(item => {
+                                item.completed = false;
+                            })
+                        })
+                    }
             } else if (this.column2.length === 5) {
                 this.errors.push('You need to complete card in the second column to add new card or complete card in the first column')
-                for (let i = 0; i < 3; i++) {
-                    for (let j = 0; j < 5; j++) {
-                        if (this.card[i].subtasks[j].title != null) {
-                            this.column1.card[i].subtasks[j].disabled = true
-                        }  
-                    }
-                
+                if(this.column1.length > 0) {
+                    this.column1.forEach(item => {
+                        item.subtasks.forEach(item => {
+                            item.completed = true;
+                        })
+                    })
                 }
             }
         },
