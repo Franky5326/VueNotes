@@ -95,13 +95,6 @@ Vue.component('cols', {
             if (card.status/count*100 >= 50 && card.status/count*100 < 100 && this.column2.length < 5) {
                     this.column2.push(card)
                     this.column1.splice(this.column1.indexOf(card), 1)
-                    if(this.column1.length > 0) {
-                        this.column1.forEach(item => {
-                            item.subtasks.forEach(item => {
-                                item.completed = false;
-                            })
-                        })
-                    }
             } else if (this.column2.length === 5) {
                 this.errors.push('You need to complete card in the second column to add new card or complete card in the first column')
                 if(this.column1.length > 0) {
@@ -132,6 +125,15 @@ Vue.component('cols', {
                 this.column3.push(card)
                 this.column2.splice(this.column2.indexOf(card), 1)
                 card.date = new Date()
+            }
+            if(this.column2.length < 5) {
+                if(this.column1.length > 0) {
+                    this.column1.forEach(item => {
+                        item.subtasks.forEach(item => {
+                            item.completed = false;
+                        })
+                    })
+                }
             }
         }
     },
