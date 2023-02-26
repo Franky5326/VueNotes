@@ -177,30 +177,36 @@ Vue.component('cols', {
 
 Vue.component('newcard', {
     template: `
-    <form class="addform" @submit.prevent="onSubmit">
-        <p>
-            <label for="title">Title</label>
-            <input id="title" required v-model="title" type="text" placeholder="title">
-        </p>
-        <div class="subtask-wrapper">
-            <div>
-                <input required id="subtask1" v-model="subtask1" placeholder="subtask">
-            </div>
-            <div>
-                <input required id="subtask2" v-model="subtask2" maxlength="30" placeholder="subtask">
-            </div>
-            <div>
-                <input required id="subtask3" v-model="subtask3" maxlength="30" placeholder="subtask">
-            </div>
-            <div>
-                <input  id="subtask4" v-model="subtask4" maxlength="30" placeholder="subtask">
-            </div>
-            <div>
-                <input  id="subtask5" v-model="subtask5" maxlength="30" placeholder="subtask">
-            </div>
+    <section>
+    <!-- openModal - id модального окна (элемента div) -->
+    <a href="#openModal" class="btn btnModal">Создать карточку</a>
+    <div id="openModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Название</h3>
+            <a href="#close" title="Close" class="close">×</a>
         </div>
-        <button type="submit">Add a card</button>
-    </form>
+        <div class="modal-body">    
+    
+        <form class="addform" @submit.prevent="onSubmit">
+            <p>
+                <label for="title">Title</label>
+                <input id="title" required v-model="title" type="text" placeholder="title">
+            </p>
+            <input required id="subtask1" v-model="subtask1" placeholder="subtask">
+            <input required id="subtask2" v-model="subtask2" maxlength="30" placeholder="subtask">
+            <input required id="subtask3" v-model="subtask3" maxlength="30" placeholder="subtask">
+            <input  id="subtask4" v-model="subtask4" maxlength="30" placeholder="subtask">
+            <input  id="subtask5" v-model="subtask5" maxlength="30" placeholder="subtask">
+            <button type="submit">Add a card</button>
+        </form>
+        
+        </div>
+        </div>
+    </div>
+    </div>
+    </section>
     `,
     data() {
         return {
